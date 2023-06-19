@@ -1,0 +1,25 @@
+/*
+ =======================================================================*\
+|| ###################################################################### ||
+|| # vBulletin 5.7.4
+|| # ------------------------------------------------------------------ # ||
+|| # Copyright 2000-2023 MH Sub I, LLC dba vBulletin. All Rights Reserved.  # ||
+|| # This file may not be redistributed in whole or significant part.   # ||
+|| # ----------------- VBULLETIN IS NOT FREE SOFTWARE ----------------- # ||
+|| # http://www.vbulletin.com | http://www.vbulletin.com/license.html   # ||
+|| ###################################################################### ||
+\*========================================================================*/
+// ***************************
+// js.compressed/subscribe.js
+// ***************************
+vBulletin.precache(["follow","following","following_pending","social_group_count_members_x","unsubscribe_overlay_error"],[]);
+(function(){function h(a,b){a=$(".js-replace-member-count-"+a);a.length&&a.each(function(){var a=$(this),f=a.data("replace-phrase-varname"),d=parseInt(a.data("member-count"),10)+b;a.text(vBulletin.phrase.get(f,d));a.data("member-count",d)})}vBulletin.subscribe={};var g=function(a,b){a.children(".js-button__text-primary").text(vBulletin.phrase.get(b))},d=function(a,b,c,f){g(a,b);a.addClass((c||"")+" b-button--special").removeClass((f||"")+" b-button--secondary")},e=function(a,b,c,f){g(a,b);a.addClass((c||
+"")+" b-button--secondary").removeClass((f||"")+" b-button--special")},k=function(a,b,c){vBulletin.AJAX({call:b,data:c,success:function(b){!isNaN(b)&&1<=b?1==b?d(a,"following","isSubscribed"):d(a,"following_pending","is-pending"):vBulletin.error("follow","follow_error")},title_phrase:"follow",error_phrase:"follow_error"})},l=function(a){var b=$(a),c=parseInt(b.attr("data-node-id"),10);a=parseInt(b.attr("data-owner-id"),10);vBulletin.AJAX({call:"/ajax/api/node/requestChannel",data:{channelid:c,recipient:a,
+requestType:"sg_member"},success:function(a){!0===a?(d(b,"joined","has-joined"),h(c,1),(b.hasClass("join-to-post-btn")||b.hasClass("js-refresh"))&&window.location.reload()):isNaN(a)||d(b,"following_pending","is-pending")},title_phrase:"join",error_phrase:"join_error"})},m=function(a){var b=$(a),c=parseInt($(a).attr("data-node-id"),10);vBulletin.AJAX({call:"/ajax/api/blog/leaveChannel",data:{channelId:c},success:function(a){!0===a?(b.hasClass("js-button--follow")?(g(b,"follow"),b.addClass("b-button--special").removeClass("isSubscribed b-button--unfollow")):
+(g(b,"join"),b.removeClass("has-joined b-button--special leave-btn")),h(c,-1),b.is(".js-no-refresh")||location.reload()):vBulletin.error("leave","invalid_server_response_please_try_again")},title_phrase:"leave",error_phrase:"invalid_server_response_please_try_again"})},n=function(a){var b=$(a);a=$(a).attr("data-node-id");vBulletin.AJAX({call:"/ajax/api/follow/delete",data:{follow_item:a,type:"follow_contents"},success:function(a){1==a?e(b,"follow","","isSubscribed b-button--unfollow"):vBulletin.error("follow",
+"unfollow_error")},title_phrase:"follow",error_phrase:"unfollow_error"})};vBulletin.subscribe.updateSubscribeButton=function(a){if("undefined"!=typeof a){var b=$(".js-button--follow").filter(function(){return $(this).data("node-id")==pageData.nodeid&&pageData.nodeid!=pageData.channelid});switch(a){case 0:e(b,"follow","","isSubscribed b-button--unfollow");break;case 1:e(b,"following","isSubscribed");break;case 2:e(b,"following_pending","is-pending")}}};$(".js-button--follow").on("click",function(a){if($(this).hasClass("isSubscribed"))$(this).hasClass("b-button--unfollow")&&
+($(this).hasClass("is-blog-channel")?m(this):n(this));else if(a=$(this),!a.hasClass("isSubscribed")&&!a.hasClass("is-pending")){var b=parseInt(a.attr("data-node-id"),10),c={};a.hasClass("is-topic")?(c.follow_item=b,c.type="follow_contents",k(a,"/ajax/api/follow/add",c)):(c={},c.channelid=b,c.recipient=parseInt(a.attr("data-owner-id"),10),a.hasClass("is-blog-channel")?c.requestType="member":a.hasClass("is-sg-channel")?c.requestType="sg_subscriber":c.requestType="subscriber",k(a,"/ajax/api/node/requestChannel",
+c))}});$(".js-button--follow").on("mouseover",function(a){a=$(this);a.hasClass("isSubscribed")&&!a.hasClass("is-owner")&&e(a,"following_remove","b-button--unfollow")});$(".js-button--follow").on("mouseout",function(a){a=$(this);a.hasClass("b-button--unfollow")&&d(a,"following","","b-button--unfollow")});$(".join-to-post-btn").on("click",function(a){$(this).hasClass("has-joined")||$(this).hasClass("is-pending")||l(this)});$(document).on("click",".join-btn",function(a){$(this).hasClass("has-joined")||
+$(this).hasClass("is-pending")?$(this).hasClass("leave-btn")&&!$(this).hasClass("is-owner")&&m(this):l(this)});$(document).on("mouseover",".join-btn",function(a){a=$(this);a.hasClass("has-joined")&&!a.hasClass("is-owner")&&e(a,"leave","leave-btn")});$(document).on("mouseout",".join-btn",function(a){a=$(this);a.hasClass("leave-btn")&&!a.hasClass("is-owner")&&d(a,"joined","","leave-btn")})})();
+;
+

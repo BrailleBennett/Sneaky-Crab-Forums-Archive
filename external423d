@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+	<channel>
+		<title>Sneaky Crab Forums - General Discussion</title>
+		<link>https://forums.sneakycrab.com/</link>
+		<description>For off-topic discussions unrelated to Timecrest.</description>
+		<language>en</language>
+		<lastBuildDate>Sun, 18 Jun 2023 02:12:56 GMT</lastBuildDate>
+		<generator>vBulletin</generator>
+		<ttl>60</ttl>
+		<image>
+			<url>images/misc/rss.png</url>
+			<title>Sneaky Crab Forums - General Discussion</title>
+			<link>https://forums.sneakycrab.com/</link>
+		</image>
+	</channel>
+</rss>
